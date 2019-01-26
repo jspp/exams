@@ -99,10 +99,10 @@ public class AddStuDialog extends JDialog implements ActionListener{
                 ps.setString(6, this.jtf6.getText().trim());
                 if(this.jtf1.getText().trim()!=null&&this.jtf2.getText().trim()!=null){
                     int i=ps.executeUpdate();
-                    JOptionPane.showMessageDialog(null, "添加"+this.jtf2.getText().trim()+"成员成功");
+                    JOptionPane.showMessageDialog(null, "添加 学员【"+this.jtf2.getText().trim()+"】 成功");
 
                 }else{
-                    JOptionPane.showMessageDialog(null, "添加"+this.jtf2.getText().trim()+"成员失败");
+                    JOptionPane.showMessageDialog(null, "添加 学员【"+this.jtf2.getText().trim()+"】 失败");
                     return;
                 }
 

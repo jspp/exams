@@ -28,7 +28,7 @@ public class StudentManager extends JFrame implements ActionListener {
 
     JLabel label;
     JTextField name;
-    JButton chaxun, shuaxin, jb1, jb2, jb3;//包括查询按钮和刷新按钮
+    JButton chaxun, shuaxin, jb_add, jb_update, jb_del;//包括查询按钮和刷新按钮
 
     JTable jTable;//表格
     JScrollPane jScrollPane;//带滚动条
@@ -81,15 +81,15 @@ public class StudentManager extends JFrame implements ActionListener {
         /**
          * 最下面 按钮区域
          */
-        jb1 = new JButton("添加");
-        jb1.addActionListener(this);
-        jb2 = new JButton("修改");
-        jb2.addActionListener(this);
-        jb3 = new JButton("删除");
-        jb3.addActionListener(this);
-        jp_foot_btns.add(jb1);
-        jp_foot_btns.add(jb2);
-        jp_foot_btns.add(jb3);
+        jb_add = new JButton("添加");
+        jb_add.addActionListener(this);
+        jb_update = new JButton("修改");
+        jb_update.addActionListener(this);
+        jb_del = new JButton("删除");
+        jb_del.addActionListener(this);
+        jp_foot_btns.add(jb_add);
+        jp_foot_btns.add(jb_update);
+        jp_foot_btns.add(jb_del);
         this.add(jp_foot_btns, BorderLayout.SOUTH);
 
 
@@ -105,34 +105,28 @@ public class StudentManager extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
         if (e.getSource() == chaxun) {
-
-            String lookname;
-            lookname = this.name.getText().trim();//得到用户输入的内容
+            String lookname = this.name.getText().trim();//得到用户输入的内容
             String sql = "select * from students where STU_NAME LIKE '%" + lookname + "%'";//
             StuModel sm = new StuModel(sql);
             jTable.setModel(sm);
             System.out.println("用户想查询" + lookname + "信息");
 
-
         } else if (e.getSource() == shuaxin) {
             StuModel sm = new StuModel();
             jTable.setModel(sm);
-        } else if (e.getSource() == jb1) {
+
+        } else if (e.getSource() == jb_add) {
             new AddStuDialog(this, "添加学生信息", true);
 
-        } else if (e.getSource() == jb2) {
+        } else if (e.getSource() == jb_update) {
             StuModel sm = new StuModel();
-
-            System.out.println("aaaa");
             int rownum = this.jTable.getSelectedRow();
             if (rownum == -1) { //提示
                 JOptionPane.showMessageDialog(this, "请选择一行");
                 return;//代表不要再往下面走了,谁调用就返回给谁 }
             }
             new StudentUpdateDialog(this, "修改对话框", true, sm, rownum);
-        } else if (e.getSource() == jb3) {
-
-
+        } else if (e.getSource() == jb_del) {
             int rownum = this.jTable.getSelectedRow();
             if (rownum == -1) {
                 JOptionPane.showMessageDialog(this, "请选中需要删除的行");

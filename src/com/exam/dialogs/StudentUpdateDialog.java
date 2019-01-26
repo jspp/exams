@@ -110,9 +110,10 @@ public class StudentUpdateDialog extends JDialog implements ActionListener{
                 ps.setString(6, this.jtf1.getText());
                 int i=ps.executeUpdate();
                 if(i==1) {
-                    System.out.print("修改成功ok");
+                    JOptionPane.showMessageDialog(null, " 修改 学员【"+this.jtf2.getText().trim()+"】 成功。");
                 } else {
                     System.out.print("修改失败");
+                    JOptionPane.showMessageDialog(null, " 修改 学员【"+this.jtf2.getText().trim()+"】 失敗");
                 }
 
             } catch (Exception e1) {
