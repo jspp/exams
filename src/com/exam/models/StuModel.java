@@ -1,10 +1,8 @@
 package com.exam.models;
 
 /**
- * 学生模型
+ * 模型
  * ouyangjie
- * 2019/1/26
- * 14:38
  */
 
 import com.exam.db.DBFactory;

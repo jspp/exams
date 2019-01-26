@@ -15,8 +15,6 @@ import java.sql.PreparedStatement;
 /**
  * 学生管理系统程序主入口
  * ouyangjie
- * 2019/1/26
- * 14:37
  */
 public class StudentManager extends JFrame implements ActionListener {
     //    JFrame jf;

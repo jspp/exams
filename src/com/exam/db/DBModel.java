@@ -3,7 +3,6 @@ package com.exam.db;
 /**
  * 数据库链接信息
  * @User: jspp@qq.com
- * @Date: 2019/1/26 15:04
  * @Desc
  * @Param
  */

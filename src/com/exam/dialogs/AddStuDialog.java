@@ -12,9 +12,6 @@ import java.sql.PreparedStatement;
 /**
  * 添加信息
  * @User: jspp@qq.com
- * @Date: 2019/1/26 14:48
- * @Desc  
- * @Param 
  */
 public class AddStuDialog extends JDialog implements ActionListener{
 
