@@ -8,10 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 /**
- * 添加学生信息
+ * 添加信息
  * @User: jspp@qq.com
  * @Date: 2019/1/26 14:48
  * @Desc  
@@ -19,116 +18,98 @@ import java.sql.SQLException;
  */
 public class AddStuDialog extends JDialog implements ActionListener{
 
-    JLabel jl1,jl2,jl3,jl4,jl5,jl6;
-    JTextField jtf1,jtf2,jtf3,jtf4,jtf5,jtf6;
-    JButton jb1,jb2;
+    //定义我需要的swing组件
+    JLabel jLabel_num, jLabel_name,jLabel_sex, jLabel_age, jLabel_address ,jLabel_subject;
+    JButton jb_save,jb2_cancle;
+    JTextField jTextField_num,jTextField_name,jTextField_sex,jTextField_age,jTextField_address,jTextField_subject;
     JPanel jp1,jp2,jp3;
 
     public AddStuDialog(Frame owner,String title,boolean modal){
         super(owner,title,modal);
+        jLabel_num=new JLabel("  学号");
+        jLabel_name=new JLabel("  姓名");
+        jLabel_sex=new JLabel("  性别");
+        jLabel_age=new JLabel("  年龄");
+        jLabel_address=new JLabel("  籍贯");
+        jLabel_subject=new JLabel("  专业");
 
+        jTextField_num=new JTextField(30);
+        jTextField_name=new JTextField(30);
+        jTextField_sex=new JTextField(30);
+        jTextField_age=new JTextField(30);
+        jTextField_address=new JTextField(30);
+        jTextField_subject=new JTextField(30);
 
-
-        jl1=new JLabel("  学号");
-        jl2=new JLabel("  名字");
-        jl3=new JLabel("  性别");
-        jl4=new JLabel("  年龄");
-        jl5=new JLabel("  籍贯");
-        jl6=new JLabel("  专业");
-
-        jtf1=new JTextField(30);
-        jtf2=new JTextField(30);
-        jtf3=new JTextField(30);
-        jtf4=new JTextField(30);
-        jtf5=new JTextField(30);
-        jtf6=new JTextField(30);
-
+        jb_save=new JButton ("保存");
+        jb2_cancle=new JButton ("取消");
         jp1=new JPanel();
         jp2=new JPanel();
         jp3=new JPanel();
+        //设置布局
         jp1.setLayout(new GridLayout(6,1,5,5));
         jp2.setLayout(new GridLayout(6,1,5,5));
-        jp1.add(jl1);
-        jp1.add(jl2);
-        jp1.add(jl3);
-        jp1.add(jl4);
-        jp1.add(jl5);
-        jp1.add(jl6);
+        //添加组件
+        jp1.add(jLabel_num);
+        jp1.add(jLabel_name);
+        jp1.add(jLabel_sex);
+        jp1.add(jLabel_age);
+        jp1.add(jLabel_address);
+        jp1.add(jLabel_subject);
 
-        jp2.add(jtf1);
-        jp2.add(jtf2);
-        jp2.add(jtf3);
-        jp2.add(jtf4);
-        jp2.add(jtf5);
-        jp2.add(jtf6);
+        jp2.add(jTextField_num);
+        jp2.add(jTextField_name);
+        jp2.add(jTextField_sex);
+        jp2.add(jTextField_age);
+        jp2.add(jTextField_address);
+        jp2.add(jTextField_subject);
 
-        jb1=new JButton("确定");
-        jb1.addActionListener(this);
-
-        jb2=new JButton("取消");
-        jb2.addActionListener(this);
-        jp3.add(jb1);
-        jp3.add(jb2);
-
+        jp3.add(jb_save);
+        jp3.add(jb2_cancle);
         this.add(jp1,BorderLayout.WEST);
-        this.add(jp2,BorderLayout.EAST);
+        this.add(jp2,BorderLayout.CENTER);
         this.add(jp3,BorderLayout.SOUTH);
-
-        this.setSize(400,300);
-        this.setLocation(200, 150);
+        //注册监听
+        jb_save.addActionListener(this);
+        jb2_cancle.addActionListener(this); //展现
+        this.setSize(400,300); //
+        this.setLocation(200,150);
         this.setVisible(true);
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
     }
     @Override
     public void actionPerformed(ActionEvent arg0) {
         // TODO Auto-generated method stub
-        if(arg0.getSource()==jb1){
+        if(arg0.getSource()==jb_save){
 
             Connection conn=null;
             PreparedStatement ps=null;
             try{
                 conn= DBFactory.getConnection();
                 ps=conn.prepareStatement("insert into students(STU_NUM,STU_NAME,STU_SEX,STU_AGE,STU_ADDRESS,STU_SUBJECT) values (?,?,?,?,?,?)");
-                ps.setString(1, this.jtf1.getText().trim());
-                ps.setString(2, this.jtf2.getText().trim());
-
-                ps.setString(3, this.jtf3.getText().trim());
-                ps.setInt(4, Integer.parseInt(this.jtf4.getText().trim()));
-                ps.setString(5, this.jtf5.getText().trim());
-                ps.setString(6, this.jtf6.getText().trim());
-                if(this.jtf1.getText().trim()!=null&&this.jtf2.getText().trim()!=null){
+                ps.setString(1, this.jTextField_num.getText().trim());
+                ps.setString(2, this.jTextField_name.getText().trim());
+                ps.setString(3, this.jTextField_sex.getText().trim());
+                ps.setInt(4, Integer.parseInt(this.jTextField_age.getText().trim()));
+                ps.setString(5, this.jTextField_address.getText().trim());
+                ps.setString(6, this.jTextField_subject.getText().trim());
+                if(this.jTextField_num.getText().trim()!=null&&this.jTextField_name.getText().trim()!=null){
                     int i=ps.executeUpdate();
-                    JOptionPane.showMessageDialog(null, "添加 学员【"+this.jtf2.getText().trim()+"】 成功");
+                    JOptionPane.showMessageDialog(null, "添加 学员【"+this.jTextField_name.getText().trim()+"】 成功");
 
                 }else{
-                    JOptionPane.showMessageDialog(null, "添加 学员【"+this.jtf2.getText().trim()+"】 失败");
+                    JOptionPane.showMessageDialog(null, "添加 学员【"+this.jTextField_name.getText().trim()+"】 失败");
                     return;
                 }
 
             }catch(Exception e){
                 e.printStackTrace();
-            }finally{
-                if(ps!=null){
-                    try {
-                        ps.close();
-                    } catch (Exception e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-                if(conn!=null){
-                    try {
-                        conn.close();
-                    } catch (SQLException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
+            }finally {
+                DBFactory.colseStatment(ps);
+                DBFactory.closeConnection(conn);
             }
             this.dispose();
         }
-        if(arg0.getSource()==jb2){
+        if(arg0.getSource()==jb2_cancle){
             this.dispose();
         }
     }

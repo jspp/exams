@@ -11,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 /**
  * 学生管理系统程序主入口
@@ -117,26 +116,30 @@ public class StudentManager extends JFrame implements ActionListener {
 
         } else if (e.getSource() == jb_add) {
             new AddStuDialog(this, "添加学生信息", true);
-
-        } else if (e.getSource() == jb_update) {
             StuModel sm = new StuModel();
+            jTable.setModel(sm);
+        } else if (e.getSource() == jb_update) {
+            StuModel sm = (StuModel)jTable.getModel();
             int rownum = this.jTable.getSelectedRow();
             if (rownum == -1) { //提示
                 JOptionPane.showMessageDialog(this, "请选择一行");
-                return;//代表不要再往下面走了,谁调用就返回给谁 }
+                return;
             }
             new StudentUpdateDialog(this, "修改对话框", true, sm, rownum);
+            sm = new StuModel();
+            jTable.setModel(sm);
         } else if (e.getSource() == jb_del) {
             int rownum = this.jTable.getSelectedRow();
             if (rownum == -1) {
                 JOptionPane.showMessageDialog(this, "请选中需要删除的行");
                 return;
             }
-            StuModel sm = new StuModel();
-            String stuId = (String) sm.getValueAt(rownum, 0);
-            String sql = "delete from students where ROW_ID='" + stuId + "'";
+            StuModel sm = (StuModel)jTable.getModel();
+            String STU_NUM = (String) sm.getValueAt(rownum, 0);
+            String sql = "delete from students where STU_NUM='" + STU_NUM + "'";
             try {
                 conn = DBFactory.getConnection();
+                System.out.println("当前SQL:"+sql);
                 ps = conn.prepareStatement(sql);
                 int i = ps.executeUpdate();
                 if (i == 1) {
@@ -145,27 +148,13 @@ public class StudentManager extends JFrame implements ActionListener {
                 } else {
                     JOptionPane.showMessageDialog(null, "删除失败！");
                 }
-
+                sm = new StuModel();
+                jTable.setModel(sm);
             } catch (Exception e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             } finally {
-                if (ps != null) {
-                    try {
-                        ps.close();
-                    } catch (SQLException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-                }
-                if (conn != null) {
-                    try {
-                        conn.close();
-                    } catch (SQLException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-                }
+                DBFactory.colseStatment(ps);
+                DBFactory.closeConnection(conn);
             }
 
         }
